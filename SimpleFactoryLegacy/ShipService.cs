@@ -59,6 +59,7 @@ namespace SimpleFactoryLegacy
         {
             foreach (var order in orders)
             {                
+                //todo, directly depend on simple factory static function, how to test it?
                 IStoreService storeService = SimpleFactory.GetStoreService(order);
                 storeService.Ship(order);
             }
