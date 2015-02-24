@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text;
 
 namespace SimpleFactoryLegacy
 {
@@ -45,13 +44,15 @@ namespace SimpleFactoryLegacy
     public class Order
     {
         public StoreType StoreType { get; set; }
+
         public int Id { get; set; }
+
         public int Amount { get; set; }
     }
 
-    public class SevenService
+    public class SevenService : IStoreService
     {
-        internal void Ship(Order order)
+        public void Ship(Order order)
         {
             // seven web service
             var client = new HttpClient();
@@ -59,13 +60,18 @@ namespace SimpleFactoryLegacy
         }
     }
 
-    public class FamilyService
+    public class FamilyService : IStoreService
     {
-        internal void Ship(Order order)
+        public void Ship(Order order)
         {
             // family web service
             var client = new HttpClient();
             client.PostAsync("http://api.family.com/Order", order, new JsonMediaTypeFormatter());
         }
+    }
+
+    public interface IStoreService
+    {
+        void Ship(Order order);
     }
 }
