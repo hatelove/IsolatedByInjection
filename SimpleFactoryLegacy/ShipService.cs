@@ -55,31 +55,14 @@ namespace SimpleFactoryLegacy
 
     public class ShipService
     {
-        //private FamilyService _family = new FamilyService();
-
-        //private SevenService _seven = new SevenService();
-
         public void ShippingByStore(List<Order> orders)
         {
             foreach (var order in orders)
-            {
-                // simple factory pattern implementation
+            {                
                 IStoreService storeService = SimpleFactory.GetStoreService(order);
                 storeService.Ship(order);
             }
         }
-
-        //private IStoreService GetStoreService(Order order)
-        //{
-        //    if (order.StoreType == StoreType.Family)
-        //    {
-        //        return this._family;
-        //    }
-        //    else
-        //    {
-        //        return this._seven;
-        //    }
-        //}
     }
 
     public class SimpleFactory
