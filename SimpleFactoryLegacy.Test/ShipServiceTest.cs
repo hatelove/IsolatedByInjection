@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SimpleFactoryLegacy.Test
 {
@@ -38,6 +38,7 @@ namespace SimpleFactoryLegacy.Test
         }
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -49,7 +50,7 @@ namespace SimpleFactoryLegacy.Test
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
+        // Use TestInitialize to run code before running each test
         // [TestInitialize()]
         // public void MyTestInitialize() { }
         //
@@ -57,7 +58,8 @@ namespace SimpleFactoryLegacy.Test
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
-        #endregion
+
+        #endregion Additional test attributes
 
         [TestMethod]
         public void TestShippingByStore_Seven_1_Order_Family_2_Orders()
@@ -72,12 +74,20 @@ namespace SimpleFactoryLegacy.Test
                 new Order{ StoreType= StoreType.Family, Id=3},
             };
 
+            //set stub by simple factory's internal setter
+            var stubSeven = Substitute.For<IStoreService>();
+            SimpleFactory.SetSevenService(stubSeven);
+
+            var stubFamily = Substitute.For<IStoreService>();
+            SimpleFactory.SetFamilyService(stubFamily);
+
             //act
             target.ShippingByStore(orders);
 
-            //todo, assert
+            //assert
             //ShipService should invoke SevenService once and FamilyService twice
-
+            stubSeven.Received(1).Ship(Arg.Is<Order>(x => x.StoreType == StoreType.Seven));
+            stubFamily.Received(2).Ship(Arg.Is<Order>(x => x.StoreType == StoreType.Family));
         }
     }
 }
