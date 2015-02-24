@@ -30,7 +30,8 @@ namespace SimpleFactoryLegacy
         {
             // family web service
             var client = new HttpClient();
-            client.PostAsync("http://api.family.com/Order", order, new JsonMediaTypeFormatter());
+            var response = client.PostAsync("http://api.family.com/Order", order, new JsonMediaTypeFormatter());
+            response.Result.EnsureSuccessStatusCode();
         }
     }
 
@@ -49,7 +50,8 @@ namespace SimpleFactoryLegacy
         {
             // seven web service
             var client = new HttpClient();
-            client.PostAsync("http://api.seven.com/Order", order, new JsonMediaTypeFormatter());
+            var response = client.PostAsync("http://api.seven.com/Order", order, new JsonMediaTypeFormatter());
+            response.Result.EnsureSuccessStatusCode();
         }
     }
 
