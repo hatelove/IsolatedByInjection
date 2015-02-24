@@ -90,7 +90,7 @@ namespace SimpleFactoryLegacy
 
         public static IStoreService GetStoreService(Order order)
         {
-            if (order.StoreType == StoreType.Family)
+            if (order.StoreType != StoreType.Family)
             {
                 return sevenService ?? new SevenService();
             }
